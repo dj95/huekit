@@ -32,9 +32,6 @@ func lightsHandler(w http.ResponseWriter, r *http.Request) {
 	body := `{
   "1": {
     "name": "TV Left"
-  },
-  "2": {
-    "name": "TV Right"
   }
 }`
 
@@ -102,34 +99,7 @@ func TestBridge_Lights(t *testing.T) {
 			expectedError: false,
 			expectedResult: []*Light{
 				{
-					Type:            "Extended color light",
-					Name:            "TV Left",
-					ModelID:         "LCT001",
-					SoftwareVersion: "65003148",
-					State: &State{
-						On:               true,
-						Brightness:       202,
-						Hue:              13122,
-						Saturation:       211,
-						XY:               [2]float64{0.5119, 0.4147},
-						ColorTemperature: 467,
-						Alert:            "none",
-						Effect:           "none",
-						ColorMode:        "ct",
-						Reachable:        true,
-					},
-					PointSymbol: map[string]string{
-						"1": "none",
-						"2": "none",
-						"3": "none",
-						"4": "none",
-						"5": "none",
-						"6": "none",
-						"7": "none",
-						"8": "none",
-					},
-				},
-				{
+					ID:              "1",
 					Type:            "Extended color light",
 					Name:            "TV Left",
 					ModelID:         "LCT001",

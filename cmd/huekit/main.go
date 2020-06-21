@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
+	"github.com/dj95/huekit/pkg/homekit"
 	"github.com/dj95/huekit/pkg/hue"
 	"github.com/dj95/huekit/pkg/store"
 )
@@ -112,6 +113,12 @@ func main() {
 	for _, light := range lights {
 		fmt.Printf("%v\n", light)
 	}
+
+	homekit.StartBridge(
+		viper.GetString("homekit_pin"),
+		lights,
+		bridge,
+	)
 }
 
 func initializeCommandFlags() {

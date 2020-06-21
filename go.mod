@@ -3,6 +3,7 @@ module github.com/dj95/huekit
 go 1.14
 
 require (
+	github.com/brutella/hc v1.2.2
 	github.com/dgraph-io/badger/v2 v2.0.3
 	github.com/go-test/deep v1.0.6
 	github.com/sirupsen/logrus v1.6.0

@@ -1,3 +1,4 @@
 log_level: "debug"
 log_format: "text"
 bridge_address: "192.168.178.92"
+homekit_pin: "00102003"

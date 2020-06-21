@@ -31,6 +31,7 @@
 - Retrieve the ip address of the bridge in the hue app (Settings > Hue Bridges > i near the [Bridge Name])
 - Place the config.yml, that is contained in the release package or from [./configs/config.yml](./configs/config.yml), near the retrieved binary.
 - Open the config.yml and insert the ip address in the `''` behind the `bridge_address` key
+- Change the `homekit_pin` to a random 8-digit pin
 - Run `./huekit`
 - Check, if it says, that you need to press the link button. If so, press the button to authenticate huekit at your hue bridge
 - Open the Home app on your apple device and click on the top right `+` icon to add an accessory.

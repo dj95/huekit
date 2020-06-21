@@ -1,13 +1,16 @@
 package hue
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
 // Light Represents a light/plug at the hue bridge
 type Light struct {
+	ID              string
 	Type            string            `json:"type"`
 	Name            string            `json:"name"`
 	ModelID         string            `json:"modelid"`
@@ -121,5 +124,71 @@ func (b *Bridge) Light(id string) (*Light, error) {
 		return nil, err
 	}
 
+	// add the ID to the light
+	light.ID = id
+
 	return &light, nil
+}
+
+type toggleRequest struct {
+	On bool `json:"on"`
+}
+
+type toggleResponse struct {
+	Error   *errorResp   `json:"error"`
+	Success *successResp `json:"success"`
+}
+
+// LightToggle Toggle a light with the given state(on or off)
+func (b *Bridge) LightToggle(light *Light, state bool) error {
+	// create the request body
+	body, err := json.Marshal(toggleRequest{
+		On: state,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	// perform the api request to fetch all lights
+	req, err := http.NewRequest(
+		"PUT",
+		"http://"+b.address+"/api/"+b.username+"/lights/"+light.ID+"/state",
+		bytes.NewBuffer(body),
+	)
+
+	// handle http errors
+	if err != nil {
+		return err
+	}
+
+	res, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		return err
+	}
+
+	defer res.Body.Close()
+
+	resByte, err := ioutil.ReadAll(res.Body)
+
+	if err != nil {
+		return err
+	}
+
+	var toggleResp []toggleResponse
+
+	if err := json.Unmarshal(resByte, &toggleResp); err != nil {
+		return err
+	}
+
+	err = nil
+
+	for _, res := range toggleResp {
+		if res.Error != nil {
+			err = fmt.Errorf(res.Error.Description)
+		}
+	}
+
+	return err
 }
