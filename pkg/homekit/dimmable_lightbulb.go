@@ -127,7 +127,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 	// configure what do to, when the home app changes the brightness
 	// of the light
 	ac.Lightbulb.Brightness.OnValueRemoteUpdate(func(bri int) {
-		bri = int(math.Floor(float64(bri)*254) / 100)
+		bri = int(math.Floor(float64(bri) * 2.54))
 
 		// send a toggle request
 		err := bridge.LightUpdateState(light, &hue.State{On: true, Brightness: bri})
@@ -163,7 +163,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 		}
 
 		// otherwise return the correct state
-		return int(math.Floor(float64(l.State.Brightness)/254) * 100)
+		return int(math.Floor(float64(l.State.Brightness) / 2.54))
 	})
 
 	// return the configured accessory
