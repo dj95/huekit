@@ -47,7 +47,7 @@ func (b *Bridge) Lights() ([]*Light, error) {
 		return nil, err
 	}
 
-	// close the reponse body on return in order to avoid memory
+	// close the response body on return in order to avoid memory
 	// leaks
 	defer res.Body.Close()
 
@@ -98,7 +98,7 @@ func (b *Bridge) Light(id string) (*Light, error) {
 		return nil, err
 	}
 
-	// close the reponse body on return in order to avoid memory
+	// close the response body on return in order to avoid memory
 	// leaks
 	defer res.Body.Close()
 
