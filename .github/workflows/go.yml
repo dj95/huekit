@@ -30,7 +30,7 @@ jobs:
     - name: Lint
       run: |
         # install go lint
-        go get -i golang.org/x/lint/golint
+        go get golang.org/x/lint/golint
         # add the GOBIN to the path
         export PATH="$PATH:$( go env GOPATH )/bin"
         # run the linter
@@ -39,7 +39,9 @@ jobs:
     - name: Staticcheck
       run: |
         # install staticcheck
-        go get -i honnef.co/go/tools/cmd/staticcheck
+        cd ..
+        go get honnef.co/go/tools/cmd/staticcheck
+        cd huekit
         # add the GOBIN to the path
         export PATH="$PATH:$( go env GOPATH )/bin"
         # run staticcheck on the source code
