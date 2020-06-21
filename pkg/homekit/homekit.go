@@ -132,7 +132,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 	// of the light
 	ac.Lightbulb.Brightness.OnValueRemoteUpdate(func(bri int) {
 		// send a toggle request
-		err := bridge.LightUpdateState(light, &hue.State{Brightness: bri})
+		err := bridge.LightUpdateState(light, &hue.State{On: true, Brightness: bri})
 
 		// if an error occurred...
 		if err != nil {

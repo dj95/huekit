@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Light Represents a light/plug at the hue bridge
@@ -21,16 +23,16 @@ type Light struct {
 
 // State Represents the state of a light
 type State struct {
-	On               bool       `json:"on,omitempty"`
-	Brightness       int        `json:"bri,omitempty"`
-	Hue              int        `json:"hue,omitempty"`
-	Saturation       int        `json:"sat,omitempty"`
-	XY               [2]float64 `json:"xy,omitempty"`
-	ColorTemperature int        `json:"ct,omitempty"`
-	Alert            string     `json:"alert,omitempty"`
-	Effect           string     `json:"effect,omitempty"`
-	ColorMode        string     `json:"colormode,omitempty"`
-	Reachable        bool       `json:"reachable,omitempty"`
+	On               bool      `json:"on"`
+	Brightness       int       `json:"bri,omitempty"`
+	Hue              int       `json:"hue,omitempty"`
+	Saturation       int       `json:"sat,omitempty"`
+	XY               []float64 `json:"xy,omitempty"`
+	ColorTemperature int       `json:"ct,omitempty"`
+	Alert            string    `json:"alert,omitempty"`
+	Effect           string    `json:"effect,omitempty"`
+	ColorMode        string    `json:"colormode,omitempty"`
+	Reachable        bool      `json:"reachable,omitempty"`
 }
 
 // LightName Represents the lights name in the /lights api call
@@ -169,6 +171,8 @@ func (b *Bridge) LightUpdateState(light *Light, state *State) error {
 	if err != nil {
 		return err
 	}
+
+	log.Debugf("%s", resByte)
 
 	var toggleResp []toggleResponse
 
