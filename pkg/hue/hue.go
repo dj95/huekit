@@ -15,7 +15,7 @@ var modelIDPattern *regexp.Regexp
 type Bridger interface {
 	Light(string) (*Light, error)
 	Lights() ([]*Light, error)
-	LightToggle(*Light, bool) error
+	LightUpdateState(*Light, *State) error
 }
 
 // Bridge Implements handling with the hue bridge
