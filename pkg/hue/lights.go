@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	log "github.com/sirupsen/logrus"
 )
 
 // Light Represents a light/plug at the hue bridge
@@ -171,8 +169,6 @@ func (b *Bridge) LightUpdateState(light *Light, state *State) error {
 	if err != nil {
 		return err
 	}
-
-	log.Debugf("%s", resByte)
 
 	var toggleResp []toggleResponse
 
