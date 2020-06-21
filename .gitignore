@@ -1,0 +1,4 @@
+bin/
+report/
+huekit_data/
+*.log
