@@ -9,7 +9,7 @@ import (
 	"github.com/dj95/huekit/pkg/store"
 )
 
-var modelIDPattern *regexp.Regexp = nil
+var modelIDPattern *regexp.Regexp
 
 // Bridger Interface for interacting with the hue bridge
 type Bridger interface {
