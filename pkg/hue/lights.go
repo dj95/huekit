@@ -21,16 +21,16 @@ type Light struct {
 
 // State Represents the state of a light
 type State struct {
-	On               bool       `json:"on"`
-	Brightness       int        `json:"bri"`
-	Hue              int        `json:"hue"`
-	Saturation       int        `json:"sat"`
-	XY               [2]float64 `json:"xy"`
-	ColorTemperature int        `json:"ct"`
-	Alert            string     `json:"alert"`
-	Effect           string     `json:"effect"`
-	ColorMode        string     `json:"colormode"`
-	Reachable        bool       `json:"reachable"`
+	On               bool      `json:"on"`
+	Brightness       int       `json:"bri,omitempty"`
+	Hue              int       `json:"hue,omitempty"`
+	Saturation       int       `json:"sat,omitempty"`
+	XY               []float64 `json:"xy,omitempty"`
+	ColorTemperature int       `json:"ct,omitempty"`
+	Alert            string    `json:"alert,omitempty"`
+	Effect           string    `json:"effect,omitempty"`
+	ColorMode        string    `json:"colormode,omitempty"`
+	Reachable        bool      `json:"reachable,omitempty"`
 }
 
 // LightName Represents the lights name in the /lights api call
@@ -130,21 +130,15 @@ func (b *Bridge) Light(id string) (*Light, error) {
 	return &light, nil
 }
 
-type toggleRequest struct {
-	On bool `json:"on"`
-}
-
 type toggleResponse struct {
 	Error   *errorResp   `json:"error"`
 	Success *successResp `json:"success"`
 }
 
-// LightToggle Toggle a light with the given state(on or off)
-func (b *Bridge) LightToggle(light *Light, state bool) error {
+// LightUpdateState Update the state of a light
+func (b *Bridge) LightUpdateState(light *Light, state *State) error {
 	// create the request body
-	body, err := json.Marshal(toggleRequest{
-		On: state,
-	})
+	body, err := json.Marshal(state)
 
 	if err != nil {
 		return err

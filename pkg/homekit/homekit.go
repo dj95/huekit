@@ -2,8 +2,6 @@
 package homekit
 
 import (
-	"strconv"
-
 	"github.com/brutella/hc"
 	"github.com/brutella/hc/accessory"
 	log "github.com/sirupsen/logrus"
@@ -56,63 +54,28 @@ func configureLights(lights []*hue.Light, bridge hue.Bridger) []*accessory.Acces
 			continue
 		}
 
+		var acc *accessory.Accessory
+
+		// create the accessory based on the type
+		switch light.Type {
+		case "On/Off plug-in unit":
+			acc = createUnitAccessory(light, bridge)
+		case "Dimmable light":
+			acc = createDimmableLightAccessory(light, bridge)
+		default:
+			acc = nil
+			log.Infof("currently type: '%s' is not supported. Please create an issue, if you need support for it: https://github.com/dj95/huekit/issues", light.Type)
+		}
+
+		// if the type does not match, continue
+		if acc == nil {
+			continue
+		}
+
 		// create, configure and save the accessory
-		accessories = append(accessories, createAccessory(light, bridge))
+		accessories = append(accessories, acc)
 	}
 
 	// return all configured accessories
 	return accessories
-}
-
-func createAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Accessory {
-	log.Debugf("creating accessory for: %s - %s", light.ID, light.Name)
-
-	// convert the id to an int. As hue's ids are integers, omit the error
-	// handling
-	id, _ := strconv.Atoi(light.ID)
-
-	// create the lightbulb accessory
-	ac := accessory.NewLightbulb(accessory.Info{
-		ID:               uint64(id + 1),
-		Name:             light.Name,
-		Model:            light.ModelID,
-		FirmwareRevision: light.SoftwareVersion,
-	})
-
-	// configure what do to, when the home app changes the state
-	// of the light
-	ac.Lightbulb.On.OnValueRemoteUpdate(func(on bool) {
-		// send a toggle request
-		err := bridge.LightToggle(light, on)
-
-		// if an error occurred...
-		if err != nil {
-			// ...log it
-			log.WithFields(log.Fields{
-				"id":    uint64(id + 1),
-				"name":  light.Name,
-				"state": on,
-				"on":    "ValueRemoteUpdate",
-			}).Errorf("%v", err)
-		}
-	})
-
-	// configure what to do, when the home app fetches the state
-	// of the light
-	ac.Lightbulb.On.OnValueRemoteGet(func() bool {
-		// refetch the light information based on the id
-		l, err := bridge.Light(light.ID)
-
-		// return, that the light is of, if an error
-		// occurred
-		if err != nil {
-			return false
-		}
-
-		// otherwise return the correct state
-		return l.State.On
-	})
-
-	// return the configured accessory
-	return ac.Accessory
 }

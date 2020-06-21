@@ -10,6 +10,9 @@
   <a href="https://cloud.drone.io/dj95/huekit">
     <img alt="BuildStatus" src="https://cloud.drone.io/api/badges/dj95/huekit/status.svg" />
   </a>
+  <a href="https://github.com/dj95/huekit/actions?query=workflow%3AGo">
+    <img alt="GoActions" src="https://github.com/dj95/huekit/workflows/Go/badge.svg" />
+  </a>
   <a href="https://goreportcard.com/report/github.com/dj95/huekit">
     <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/dj95/huekit" />
   </a>

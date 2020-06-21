@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"os"
 
@@ -111,7 +110,13 @@ func main() {
 
 	// iterate through all the lights
 	for _, light := range lights {
-		fmt.Printf("%v\n", light)
+		log.WithFields(log.Fields{
+			"id":               light.ID,
+			"name":             light.Name,
+			"type":             light.Type,
+			"model":            light.ModelID,
+			"software_version": light.SoftwareVersion,
+		}).Debug("found device")
 	}
 
 	homekit.StartBridge(
