@@ -19,7 +19,7 @@ log_format: "text"
 #
 # In order to find the ip address, open the hue app.
 # Then navigate to Settings > Hue Bridges > i near the [Bridge Name]
-bridge_address: "192.168.178.92"
+bridge_address: ""
 
 # pin for the homekit setup
 #

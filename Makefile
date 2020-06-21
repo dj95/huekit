@@ -39,12 +39,15 @@ deps:
 		GO111MODULE=on $(GOCMD) mod vendor
 
 release: clean
+		mkdir -p $(BINARY_PATH)
+		cp ./configs/config.yml.dist $(BINARY_PATH)config.yml
 		CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_PATH)$(BINARY_NAME) -ldflags="-s -w" -a -installsuffix cgo -v cmd/huekit/main.go
-		cd $(BINARY_PATH) && tar cvzf huekit_linux_amd64.tar.gz $(BINARY_NAME)
+		cd $(BINARY_PATH) && tar cvzf huekit_linux_amd64.tar.gz $(BINARY_NAME) config.yml
 		rm -rf $(BINARY_PATH)$(BINARY_NAME)
 		CGO_ENABLED=0 GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BINARY_PATH)$(BINARY_NAME) -a -installsuffix cgo -v cmd/huekit/main.go
-		cd $(BINARY_PATH) && zip huekit_windows_amd64.zip $(BINARY_NAME)
+		cd $(BINARY_PATH) && zip huekit_windows_amd64.zip $(BINARY_NAME) config.yml
 		rm -rf $(BINARY_PATH)$(BINARY_NAME)
 		CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 $(GOBUILD) -o $(BINARY_PATH)$(BINARY_NAME) -a -installsuffix cgo -v cmd/huekit/main.go
-		cd $(BINARY_PATH) && tar cvzf huekit_macos_amd64.tar.gz $(BINARY_NAME)
+		cd $(BINARY_PATH) && tar cvzf huekit_macos_amd64.tar.gz $(BINARY_NAME) config.yml
 		rm -rf $(BINARY_PATH)$(BINARY_NAME)
+		rm -rf $(BINARY_PATH)config.yml

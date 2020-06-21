@@ -3,3 +3,4 @@ report/
 huekit_data/
 *.log
 HueKit Bridge/
+config.yml
