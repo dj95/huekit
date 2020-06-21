@@ -1,4 +1,30 @@
+# set the verbosity.
+#
+# possible values: (defaults to info)
+#
+# - info
+# - debug
+#
 log_level: "debug"
+
+# set the format of the output
+#
+# possible values: (defaults to text)
+#
+# - text
+# - json
 log_format: "text"
+
+# ip address of the hue bridge
+#
+# In order to find the ip address, open the hue app.
+# Then navigate to Settings > Hue Bridges > i near the [Bridge Name]
 bridge_address: "192.168.178.92"
+
+# pin for the homekit setup
+#
+# when the bridge shows up in the accessory setup, you need to
+# enter a pin for authorization. The pin can be configured in this
+# field. Very simple pins(such as 12345678) are blocked. The pin
+# MUST be a 8 digits long.
 homekit_pin: "00102003"
