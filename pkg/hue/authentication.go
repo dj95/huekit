@@ -64,7 +64,7 @@ func authenticate(address string) (string, error) {
 		// debug log
 		log.Debugf("%v", err)
 
-		// if an error occured or the link button was not
+		// if an error occurred or the link button was not
 		// pressed...
 		if err != nil {
 			// ...wait a second...
