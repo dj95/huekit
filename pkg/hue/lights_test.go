@@ -109,7 +109,7 @@ func TestBridge_Lights(t *testing.T) {
 						Brightness:       202,
 						Hue:              13122,
 						Saturation:       211,
-						XY:               [2]float64{0.5119, 0.4147},
+						XY:               []float64{0.5119, 0.4147},
 						ColorTemperature: 467,
 						Alert:            "none",
 						Effect:           "none",

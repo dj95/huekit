@@ -64,6 +64,8 @@ func configureLights(lights []*hue.Light, bridge hue.Bridger) []*accessory.Acces
 			acc = createUnitAccessory(light, bridge)
 		case "Dimmable light":
 			acc = createDimmableLightAccessory(light, bridge)
+		case "Extended color light":
+			acc = createExtendedColorLightAccessory(light, bridge)
 		default:
 			acc = nil
 		}
@@ -80,7 +82,7 @@ func configureLights(lights []*hue.Light, bridge hue.Bridger) []*accessory.Acces
 	return accessories
 }
 
-func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Accessory {
+func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Accessory {
 	log.Debugf("creating accessory for: %s - %s", light.ID, light.Name)
 
 	// convert the id to an int. As hue's ids are integers, omit the error
@@ -89,6 +91,95 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 
 	// create the lightbulb accessory
 	ac := accessory.NewColoredLightbulb(accessory.Info{
+		ID:               uint64(id + 1),
+		Name:             light.Name,
+		Model:            light.ModelID,
+		FirmwareRevision: light.SoftwareVersion,
+	})
+
+	// configure what do to, when the home app changes the state
+	// of the light
+	ac.Lightbulb.On.OnValueRemoteUpdate(func(on bool) {
+		// send a toggle request
+		err := bridge.LightUpdateState(light, &hue.State{On: on})
+
+		// if an error occurred...
+		if err != nil {
+			// ...log it
+			log.WithFields(log.Fields{
+				"id":    uint64(id + 1),
+				"name":  light.Name,
+				"state": on,
+				"on":    "ValueRemoteUpdate",
+			}).Errorf("%v", err)
+		}
+	})
+
+	// configure what to do, when the home app fetches the state
+	// of the light
+	ac.Lightbulb.On.OnValueRemoteGet(func() bool {
+		// refetch the light information based on the id
+		l, err := bridge.Light(light.ID)
+
+		// return, that the light is of, if an error
+		// occurred
+		if err != nil {
+			return false
+		}
+
+		// otherwise return the correct state
+		return l.State.On
+	})
+
+	// configure what do to, when the home app changes the brightness
+	// of the light
+	ac.Lightbulb.Brightness.OnValueRemoteUpdate(func(bri int) {
+		bri = int(math.Floor(float64(bri) * 2.54))
+
+		// send a toggle request
+		err := bridge.LightUpdateState(light, &hue.State{On: true, Brightness: bri})
+
+		// if an error occurred...
+		if err != nil {
+			// ...log it
+			log.WithFields(log.Fields{
+				"id":   uint64(id + 1),
+				"name": light.Name,
+				"bri":  bri,
+				"on":   "ValueRemoteUpdate",
+			}).Errorf("%v", err)
+		}
+	})
+
+	// configure what to do, when the home app fetches the brightness
+	// of the light
+	ac.Lightbulb.Brightness.OnValueRemoteGet(func() int {
+		// refetch the light information based on the id
+		l, err := bridge.Light(light.ID)
+
+		// return, that the light is of, if an error
+		// occurred
+		if err != nil {
+			return 0
+		}
+
+		// otherwise return the correct state
+		return int(math.Floor(float64(l.State.Brightness) / 2.54))
+	})
+
+	// return the configured accessory
+	return ac.Accessory
+}
+
+func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Accessory {
+	log.Debugf("creating accessory for: %s - %s", light.ID, light.Name)
+
+	// convert the id to an int. As hue's ids are integers, omit the error
+	// handling
+	id, _ := strconv.Atoi(light.ID)
+
+	// create the lightbulb accessory
+	ac := NewDimmableLightbulb(accessory.Info{
 		ID:               uint64(id + 1),
 		Name:             light.Name,
 		Model:            light.ModelID,
