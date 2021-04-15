@@ -10,13 +10,14 @@ import (
 
 // Light Represents a light/plug at the hue bridge
 type Light struct {
-	ID              string
-	Type            string            `json:"type"`
-	Name            string            `json:"name"`
-	ModelID         string            `json:"modelid"`
-	SoftwareVersion string            `json:"swversion"`
-	State           *State            `json:"state"`
-	PointSymbol     map[string]string `json:"pointsymbol"`
+	ID               string
+	Type             string            `json:"type"`
+	Name             string            `json:"name"`
+	ModelID          string            `json:"modelid"`
+	ManufacturerName string            `json:"manufacturername"`
+	SoftwareVersion  string            `json:"swversion"`
+	State            *State            `json:"state"`
+	PointSymbol      map[string]string `json:"pointsymbol"`
 }
 
 // State Represents the state of a light
