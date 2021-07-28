@@ -38,6 +38,9 @@ clean:
 deps:
 		GO111MODULE=on $(GOCMD) mod vendor
 
+raspberry:
+		CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 $(GOBUILD) -o $(BINARY_PATH)$(BINARY_NAME)_armv7 -ldflags="-s -w" -a -installsuffix cgo -v cmd/huekit/main.go
+
 release: clean
 		mkdir -p $(BINARY_PATH)
 		cp ./configs/config.yml.dist $(BINARY_PATH)config.yml
