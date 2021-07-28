@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  bridge:
+    build:
+      context: '../..'
+      dockerfile: build/package/docker/huekit/Dockerfile
+    image: 'github.com/dj95/huekit:${VERSION:-dev}'
+    network_mode: 'host'
+
+  bridge_rpi:
+    build:
+      context: '../..'
+      dockerfile: build/package/docker/huekit/Dockerfile
+      args:
+        GOARCH: 'arm'
+        GOARM: '7'
+    image: 'github.com/dj95/huekit:armv7-${VERSION:-dev}'
+    network_mode: 'host'
