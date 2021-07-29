@@ -37,7 +37,7 @@ func init() {
 
 	// read the config file
 	if err := viper.ReadInConfig(); err != nil {
-		log.Warnf("Cannot read config file: %s", err.Error())
+		log.Warnf("Cannot read a config file. Trying to fetch config from env.")
 	}
 
 	// read the configuration from the environment and override
@@ -79,6 +79,10 @@ func init() {
 }
 
 func main() {
+	if viper.GetString("bridge_address") == "" || viper.GetString("homekit_pin") == "" {
+		log.Fatal("Invalid configuration! Either 'bridge_address' or 'homekit_pin' are missing!")
+	}
+
 	// open the database
 	db, err := badger.Open(
 		badger.
