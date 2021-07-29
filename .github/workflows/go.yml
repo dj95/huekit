@@ -48,7 +48,7 @@ jobs:
     - name: Gosec
       run: |
         # install gosec
-        GO111MODULE=off go get github.com/securego/gosec/v2/cmd/gosec
+        go get github.com/securego/gosec/v2/cmd/gosec
         # add the GOBIN to the path
         export PATH="$PATH:$( go env GOPATH )/bin"
         # run staticcheck on the source code
