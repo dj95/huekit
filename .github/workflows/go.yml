@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Set up Go 1.14
+    - name: Set up Go 1.16
       uses: actions/setup-go@v1
       with:
-        go-version: 1.14
+        go-version: 1.16
       id: go
 
     - name: Check out code into the Go module directory
@@ -44,3 +44,13 @@ jobs:
         export PATH="$PATH:$( go env GOPATH )/bin"
         # run staticcheck on the source code
         staticcheck `go list ./...`
+
+
+    - name: Gosec
+      run: |
+        # add the GOBIN to the path
+        export PATH="$PATH:$( go env GOPATH )/bin"
+        # install staticcheck
+        GO111MODULE=off go get -u github.com/securego/gosec/cmd/gosec
+        # run staticcheck on the source code
+        gosec ./...

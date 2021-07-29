@@ -2,13 +2,13 @@ package hue
 
 import (
 	"bytes"
-	"crypto/sha1"
+	"crypto/rand"
+	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
-	"math/rand"
 	"net/http"
 	"time"
 
@@ -34,23 +34,29 @@ type errorResp struct {
 	Description string `json:"description"`
 }
 
-func generateUsername() string {
+func generateUsername() (string, error) {
 	// create a buffer for the random seed
 	seed := make([]byte, 16)
 
 	// read the seed
-	rand.Read(seed)
+	if _, err := rand.Read(seed); err != nil {
+		return "", err
+	}
 
 	// hash the seed with sha1 for a better distribution
-	hashedSeed := sha1.Sum(seed)
+	hashedSeed := sha256.Sum256(seed)
 
 	// return the hex encoded hash
-	return hex.EncodeToString(hashedSeed[:10])
+	return hex.EncodeToString(hashedSeed[:10]), nil
 }
 
 func authenticate(address string) (string, error) {
 	// generate a new username
-	id := generateUsername()
+	id, err := generateUsername()
+
+	if err != nil {
+		return "", err
+	}
 
 	log.Info("Please press the link button on your bridge")
 

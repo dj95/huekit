@@ -27,7 +27,7 @@ func (b *Badger) Get(key string) (string, error) {
 			return err
 		}
 
-		item.Value(func(value []byte) error {
+		err = item.Value(func(value []byte) error {
 			result = string(value)
 
 			return nil

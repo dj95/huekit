@@ -53,7 +53,7 @@ func init() {
 	file, err := os.OpenFile(
 		"huekit.log",
 		os.O_CREATE|os.O_WRONLY|os.O_APPEND,
-		0666,
+		0600,
 	)
 
 	// create the log output
@@ -134,5 +134,7 @@ func initializeCommandFlags() {
 	pflag.Parse()
 
 	// bind the pflags
-	viper.BindPFlags(pflag.CommandLine)
+	if err := viper.BindPFlags(pflag.CommandLine); err != nil {
+		log.Fatal(err)
+	}
 }
