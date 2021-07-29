@@ -5,6 +5,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
     steps:
 
     - name: Set up Go 1.16
@@ -46,10 +48,6 @@ jobs:
         staticcheck `go list ./...`
 
     - name: Gosec
-      run: |
-        # install gosec
-        GO111MODULE=off go get -u github.com/securego/gosec/v2/cmd/gosec
-        # add the GOBIN to the path
-        export PATH="$PATH:$( go env GOPATH )/bin"
-        # run gosec on the source code
-        gosec `go list ./...`
+      uses: securego/gosec@master
+      with:
+        args: ./...
