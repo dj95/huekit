@@ -5,6 +5,7 @@ import (
 	"os"
 
 	badger "github.com/dgraph-io/badger/v2"
+	"github.com/dgraph-io/badger/v2/options"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -30,10 +31,18 @@ func init() {
 		viper.SetConfigFile(viper.GetString("config"))
 	}
 
+	// set the env prefix to HUEKIT_ for configuration via
+	// environment variables
+	viper.SetEnvPrefix("HUEKIT")
+
 	// read the config file
 	if err := viper.ReadInConfig(); err != nil {
 		log.Warnf("Cannot read config file: %s", err.Error())
 	}
+
+	// read the configuration from the environment and override
+	// the given values in the config file with it
+	viper.AutomaticEnv()
 
 	// set the default log level and mode
 	log.SetLevel(log.InfoLevel)
@@ -74,7 +83,8 @@ func main() {
 	db, err := badger.Open(
 		badger.
 			DefaultOptions("./huekit_data").
-			WithLogger(log.StandardLogger()),
+			WithLogger(log.StandardLogger()).
+			WithValueLogLoadingMode(options.FileIO),
 	)
 
 	// error handling
