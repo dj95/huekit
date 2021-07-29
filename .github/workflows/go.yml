@@ -53,4 +53,4 @@ jobs:
         # install staticcheck
         GO111MODULE=off go get -u github.com/securego/gosec/cmd/gosec
         # run staticcheck on the source code
-        gosec `go list ./...`
+        gosec ./...
