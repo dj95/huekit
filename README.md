@@ -60,6 +60,7 @@ The docker-compose.yml features a configuration for linux/amd64 and linux/armv7 
 
 Configuration of the docker containers can be done by setting environment variable, such that a config file is not required anymore.
 All configuration parameters of the config.yml can be reused with the prefix `HUEKIT_` in order to be set via the environment.
+An example configuration can be found in the docker-compose.yml.
 The following environment variables are available:
 
 
