@@ -29,6 +29,7 @@ tests:
 		$(GOCMD) tool cover -html=report/cover.out -o report/cover.html
 		$(GOLINT) -set_exit_status $(TEST_FILES)
 		staticcheck $(TEST_FILES)
+		gosec $(TEST_FILES)
 
 clean:
 		$(GOCLEAN)

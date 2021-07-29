@@ -26,6 +26,9 @@
 
 - Golang (>=1.14.3)
 - Make
+- golint (✅ tests/linting)
+- staticcheck (✅ tests/linting)
+- gosec (✅ tests/linting)
 
 
 ## 🔧 Usage/Installation
