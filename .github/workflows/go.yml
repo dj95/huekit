@@ -45,11 +45,12 @@ jobs:
         # run staticcheck on the source code
         staticcheck `go list ./...`
 
+
     - name: Gosec
       run: |
-        # install gosec
-        go get github.com/securego/gosec/v2/cmd/gosec
         # add the GOBIN to the path
         export PATH="$PATH:$( go env GOPATH )/bin"
+        # install staticcheck
+        GO111MODULE=off go get -u github.com/securego/gosec/cmd/gosec
         # run staticcheck on the source code
-        staticcheck `go list ./...`
+        gosec `go list ./...`
