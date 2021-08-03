@@ -5,6 +5,7 @@ import (
 	"os"
 
 	badger "github.com/dgraph-io/badger/v2"
+	"github.com/dgraph-io/badger/v2/options"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -30,10 +31,18 @@ func init() {
 		viper.SetConfigFile(viper.GetString("config"))
 	}
 
+	// set the env prefix to HUEKIT_ for configuration via
+	// environment variables
+	viper.SetEnvPrefix("HUEKIT")
+
 	// read the config file
 	if err := viper.ReadInConfig(); err != nil {
-		log.Warnf("Cannot read config file: %s", err.Error())
+		log.Warnf("Cannot read a config file. Trying to fetch config from env.")
 	}
+
+	// read the configuration from the environment and override
+	// the given values in the config file with it
+	viper.AutomaticEnv()
 
 	// set the default log level and mode
 	log.SetLevel(log.InfoLevel)
@@ -70,11 +79,16 @@ func init() {
 }
 
 func main() {
+	if viper.GetString("bridge_address") == "" || viper.GetString("homekit_pin") == "" {
+		log.Fatal("Invalid configuration! Either 'bridge_address' or 'homekit_pin' are missing!")
+	}
+
 	// open the database
 	db, err := badger.Open(
 		badger.
 			DefaultOptions("./huekit_data").
-			WithLogger(log.StandardLogger()),
+			WithLogger(log.StandardLogger()).
+			WithValueLogLoadingMode(options.FileIO),
 	)
 
 	// error handling

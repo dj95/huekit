@@ -1,0 +1,23 @@
+version: '3.5'
+services:
+  bridge:
+    build:
+      context: '../..'
+      dockerfile: build/package/docker/huekit/Dockerfile
+    image: 'github.com/dj95/huekit:${VERSION:-dev}'
+    network_mode: 'host'
+    environment:
+      HUEKIT_LOG_LEVEL: 'info'
+      HUEKIT_LOG_FORMAT: 'json'
+      HUEKIT_BRIDGE_ADDRESS: '127.0.0.1'
+      HUEKIT_HOMEKIT_PIN: '00102003'
+
+  bridge_rpi:
+    build:
+      context: '../..'
+      dockerfile: build/package/docker/huekit/Dockerfile
+      args:
+        GOARCH: 'arm'
+        GOARM: '7'
+    image: 'github.com/dj95/huekit:armv7-${VERSION:-dev}'
+    network_mode: 'host'

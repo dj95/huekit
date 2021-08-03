@@ -53,6 +53,28 @@
 In order to build the binary, just run `make build`. The binary will be placed in the `./bin` directory.
 
 
+## 🐳 Docker
+
+This project features a Dockerfile, docker-compose file and the way to read the configuration from the environment.
+The Dockerfile can be found in `build/package/docker/huekit` and the docker-compose.yml in `deployments/docker`.
+For building an image for different OS and CPU architextures, the Dockerfile features build arguments, that allow cross compiling the binary.
+The docker-compose.yml features a configuration for linux/amd64 and linux/armv7 (compatible with raspberry pi).
+
+
+Configuration of the docker containers can be done by setting environment variable, such that a config file is not required anymore.
+All configuration parameters of the config.yml can be reused with the prefix `HUEKIT_` in order to be set via the environment.
+An example configuration can be found in the docker-compose.yml.
+The following environment variables are available:
+
+
+| Name | Description |
+|------|-------------|
+| `HUEKIT_LOG_LEVEL` | Set the verbosity of the service. |
+| `HUEKIT_LOG_FORMAT` | Decide, if you want `json` or `text` logs |
+| `HUEKIT_BRIDGE_ADDRESS` | IP address of the hue bridge  |
+| `HUEKIT_HOMEKIT_PIN` | Pin, that must be entered in homekit for pairing with huekit |
+
+
 ## 🤝 Contributing
 
 If you are missing features or find some annoying bugs please feel free to submit an issue or a bugfix within a pull request :)
