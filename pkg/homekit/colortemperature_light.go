@@ -35,7 +35,7 @@ func NewColorTemperatureLight(info accessory.Info) *ColorTemperatureLight {
 	return &acc
 }
 
-// DimmableLightbulbService Represent the services behind the dimmable light
+// ColorTemperatureLightService Represent the services behind the color temperature light
 // bulb, e.g. power state and brightness
 type ColorTemperatureLightService struct {
 	*service.Service
