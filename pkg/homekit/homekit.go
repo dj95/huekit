@@ -10,7 +10,7 @@ import (
 )
 
 // StartBridge Create a bridge, required accessories and start the bridge
-func StartBridge(pin string, lights []*hue.Light, bridge hue.Bridger) {
+func StartBridge(pin string, port string, lights []*hue.Light, bridge hue.Bridger) {
 	// create the bridge accessory
 	bridgeAccessory := accessory.NewBridge(accessory.Info{
 		ID:   1,
@@ -24,7 +24,7 @@ func StartBridge(pin string, lights []*hue.Light, bridge hue.Bridger) {
 	// create the ip transport, that publishes homekit functionality
 	// and acts as the bridge
 	t, err := hc.NewIPTransport(
-		hc.Config{Pin: pin},
+		hc.Config{Port: port, Pin: pin},
 		bridgeAccessory.Accessory,
 		accessories[:]...,
 	)

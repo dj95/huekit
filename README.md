@@ -73,6 +73,7 @@ The following environment variables are available:
 | `HUEKIT_LOG_FORMAT` | Decide, if you want `json` or `text` logs |
 | `HUEKIT_BRIDGE_ADDRESS` | IP address of the hue bridge  |
 | `HUEKIT_HOMEKIT_PIN` | Pin, that must be entered in homekit for pairing with huekit |
+| `HUEKIT_HOMEKIT_PORT` | Port that huekit will listen on for homekit  |
 
 
 ## 🤝 Contributing
