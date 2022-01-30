@@ -135,6 +135,7 @@ func main() {
 
 	homekit.StartBridge(
 		viper.GetString("homekit_pin"),
+		viper.GetString("homekit_port"),
 		lights,
 		bridge,
 	)

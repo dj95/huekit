@@ -28,3 +28,9 @@ bridge_address: ""
 # field. Very simple pins(such as 12345678) are blocked. The pin
 # MUST be a 8 digits long.
 homekit_pin: "00102003"
+
+# listening port for homekit
+#
+# listening port for homekit connection. If none specified then a
+# random port will be used.
+homekit_port: ""
