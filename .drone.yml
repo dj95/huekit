@@ -26,7 +26,7 @@ steps:
   depends_on:
   - lint
   commands:
-  - go get -u honnef.co/go/tools/cmd/staticcheck
+  - GO111MODULE=off go get -u honnef.co/go/tools/cmd/staticcheck
   # enable go modules
   - export GO111MODULE=on
   # run tests
