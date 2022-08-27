@@ -1,9 +1,10 @@
+---
 kind: pipeline
 name: testing
 
 steps:
 - name: unittests
-  image: golang
+  image: 'golang:1.18'
   commands:
   # enable go modules
   - export GO111MODULE=on
@@ -12,7 +13,7 @@ steps:
   - go test -covermode=count -coverprofile=report/cover.out ./...
 
 - name: lint
-  image: golang
+  image: 'golang:1.18'
   commands:
   - go get -u golang.org/x/lint/golint
   # enable go modules
@@ -21,7 +22,7 @@ steps:
   - golint -set_exit_status ./...
 
 - name: staticcheck
-  image: golang
+  image: 'golang:1.18'
   depends_on:
   - lint
   commands:
