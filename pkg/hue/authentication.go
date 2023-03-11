@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -133,7 +132,7 @@ func performAuthRequest(address, username string) (string, error) {
 
 func verifyResponse(res io.ReadCloser) (string, error) {
 	// read the complete response body
-	resBytes, err := ioutil.ReadAll(res)
+	resBytes, err := io.ReadAll(res)
 
 	// error handling
 	if err != nil {
