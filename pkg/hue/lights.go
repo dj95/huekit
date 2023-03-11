@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -59,7 +59,7 @@ func (b *Bridge) Lights() ([]*Light, error) {
 	var lightIDs map[string]*LightName
 
 	// read the body
-	bodyBytes, err := ioutil.ReadAll(res.Body)
+	bodyBytes, err := io.ReadAll(res.Body)
 
 	// handle read errors
 	if err != nil {
@@ -110,7 +110,7 @@ func (b *Bridge) Light(id string) (*Light, error) {
 	var light Light
 
 	// read the body
-	bodyBytes, err := ioutil.ReadAll(res.Body)
+	bodyBytes, err := io.ReadAll(res.Body)
 
 	// handle read errors
 	if err != nil {
@@ -165,7 +165,7 @@ func (b *Bridge) LightUpdateState(light *Light, state *State) error {
 
 	defer res.Body.Close()
 
-	resByte, err := ioutil.ReadAll(res.Body)
+	resByte, err := io.ReadAll(res.Body)
 
 	if err != nil {
 		return err

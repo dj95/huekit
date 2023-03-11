@@ -3,7 +3,7 @@ package hue
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -20,7 +20,7 @@ func testServerAuth() *httptest.Server {
 			return
 		}
 
-		reqBytes, err := ioutil.ReadAll(r.Body)
+		reqBytes, err := io.ReadAll(r.Body)
 
 		if err != nil {
 			fmt.Printf("[mock] cannot read body\n")
