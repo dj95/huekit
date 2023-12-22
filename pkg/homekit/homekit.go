@@ -64,6 +64,8 @@ func configureLights(lights []*hue.Light, bridge hue.Bridger) []*accessory.Acces
 			acc = createDimmableLightAccessory(light, bridge)
 		case "Color temperature light":
 			acc = createColorTemperatureLightAccessory(light, bridge)
+		case "Extended color light":
+			acc = createExtendedColorLightAccessory(light, bridge)
 		default:
 			acc = nil
 			log.Infof("currently type: '%s' is not supported. Please create an issue, if you need support for it: https://github.com/dj95/huekit/issues", light.Type)
