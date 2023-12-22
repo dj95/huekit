@@ -29,10 +29,10 @@ jobs:
 
     - name: Staticcheck
       run: |
-        # install staticcheck
-        GO111MODULE=off go get -u honnef.co/go/tools/cmd/staticcheck
         # add the GOBIN to the path
         export PATH="$PATH:$( go env GOPATH )/bin"
+        # install staticcheck
+        go install honnef.co/go/tools/cmd/staticcheck@latest
         # run staticcheck on the source code
         staticcheck `go list ./...`
 
@@ -41,7 +41,7 @@ jobs:
       run: |
         # add the GOBIN to the path
         export PATH="$PATH:$( go env GOPATH )/bin"
-        # install staticcheck
-        GO111MODULE=off go get -u github.com/securego/gosec/cmd/gosec
+        # install gosec
+        go install github.com/securego/gosec/cmd/gosec
         # run staticcheck on the source code
         gosec ./...
