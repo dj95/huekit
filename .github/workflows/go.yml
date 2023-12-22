@@ -1,43 +1,43 @@
+---
 name: Go
 on: [push]
 jobs:
-
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Go 1.20
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.21
+        id: go
 
-    - name: Set up Go 1.20
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.20
-      id: go
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
+      - name: Get dependencies
+        run: |
+          go mod vendor
 
-    - name: Get dependencies
-      run: |
-        go mod vendor
+      - name: Unit-Tests
+        run: |
+          # create the report directory
+          mkdir -p report/
+          # run the unit tests
+          go test -v -short -covermode=count -coverprofile report/cover.out `go list ./...`
 
-    - name: Unit-Tests
-      run: |
-        # create the report directory
-        mkdir -p report/
-        # run the unit tests
-        go test -v -short -covermode=count -coverprofile report/cover.out `go list ./...`
+      - name: Staticcheck
+        run: |
+          # add the GOBIN to the path
+          export PATH="$PATH:$( go env GOPATH )/bin"
+          # install staticcheck
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          # run staticcheck on the source code
+          staticcheck `go list ./...`
 
-    - name: Staticcheck
-      run: |
-        # add the GOBIN to the path
-        export PATH="$PATH:$( go env GOPATH )/bin"
-        # install staticcheck
-        go install honnef.co/go/tools/cmd/staticcheck@latest
-        # run staticcheck on the source code
-        staticcheck `go list ./...`
-
-
-    - name: Run Gosec Security Scanner
-      uses: securego/gosec@master
-      with:
-        args: ./...
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        env:
+          GOROOT: ''
+        with:
+          args: ./...
