@@ -37,11 +37,7 @@ jobs:
         staticcheck `go list ./...`
 
 
-    - name: Gosec
-      run: |
-        # add the GOBIN to the path
-        export PATH="$PATH:$( go env GOPATH )/bin"
-        # install gosec
-        go install github.com/securego/gosec/cmd/gosec
-        # run staticcheck on the source code
-        gosec ./...
+    - name: Run Gosec Security Scanner
+      uses: securego/gosec@master
+      with:
+        args: ./...
