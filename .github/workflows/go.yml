@@ -27,15 +27,6 @@ jobs:
         # run the unit tests
         go test -v -short -covermode=count -coverprofile report/cover.out `go list ./...`
 
-    - name: Lint
-      run: |
-        # install go lint
-        GO111MODULE=off go get -u golang.org/x/lint/golint
-        # add the GOBIN to the path
-        export PATH="$PATH:$( go env GOPATH )/bin"
-        # run the linter
-        golint -set_exit_status `go list ./...`
-
     - name: Staticcheck
       run: |
         # install staticcheck
