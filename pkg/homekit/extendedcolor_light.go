@@ -77,7 +77,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 
 	// create the lightbulb accessory
 	ac := NewExtendendColorLight(accessory.Info{
-		ID:               uint64(id + 1),
+		ID:               uint64(id + 1), // #nosec G115 IDs will always be smaller
 		Name:             light.Name,
 		Model:            light.ModelID,
 		Manufacturer:     light.ManufacturerName,
@@ -95,7 +95,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		err := bridge.LightUpdateState(light, &hue.State{On: on})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("trigger state: %t", on)
@@ -104,7 +104,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":    uint64(id + 1),
+				"id":    id + 1,
 				"name":  light.Name,
 				"state": on,
 				"on":    "on",
@@ -141,7 +141,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		err := bridge.LightUpdateState(light, &hue.State{On: true, Brightness: bri})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("change brightness: %d", bri)
@@ -150,7 +150,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":   uint64(id + 1),
+				"id":   id + 1,
 				"name": light.Name,
 				"bri":  bri,
 				"on":   "brightness",
@@ -188,7 +188,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		err := bridge.LightUpdateState(light, &hue.State{On: true, ColorTemperature: colorTemperature})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("change color-temperature: %d", colorTemperature)
@@ -197,7 +197,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":               uint64(id + 1),
+				"id":               id + 1,
 				"name":             light.Name,
 				"colorTemperature": colorTemperature,
 				"on":               "color-temperature",
@@ -233,7 +233,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		err := bridge.LightUpdateState(light, &hue.State{On: true, Hue: int(color)})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("change hue: %f", color)
@@ -242,7 +242,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":               uint64(id + 1),
+				"id":               id + 1,
 				"name":             light.Name,
 				"colorTemperature": color,
 				"on":               "hue",
@@ -271,7 +271,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		err := bridge.LightUpdateState(light, &hue.State{On: true, Saturation: int(saturation)})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("change saturation: %f", saturation)
@@ -280,7 +280,7 @@ func createExtendedColorLightAccessory(light *hue.Light, bridge hue.Bridger) *ac
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":         uint64(id + 1),
+				"id":         id + 1,
 				"name":       light.Name,
 				"saturation": saturation,
 				"on":         "saturation",

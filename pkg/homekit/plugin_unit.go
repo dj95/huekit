@@ -18,7 +18,7 @@ func createUnitAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Access
 
 	// create the lightbulb accessory
 	ac := accessory.NewLightbulb(accessory.Info{
-		ID:               uint64(id + 1),
+		ID:               uint64(id + 1), // #nosec G115 IDs will always be smaller
 		Name:             light.Name,
 		Model:            light.ModelID,
 		FirmwareRevision: light.SoftwareVersion,
@@ -31,7 +31,7 @@ func createUnitAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Access
 		err := bridge.LightUpdateState(light, &hue.State{On: on})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("trigger state: %t", on)
@@ -40,7 +40,7 @@ func createUnitAccessory(light *hue.Light, bridge hue.Bridger) *accessory.Access
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":    uint64(id + 1),
+				"id":    id + 1,
 				"name":  light.Name,
 				"state": on,
 				"on":    "on",

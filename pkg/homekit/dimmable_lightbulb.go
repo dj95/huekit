@@ -70,7 +70,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 
 	// create the lightbulb accessory
 	ac := NewDimmableLightbulb(accessory.Info{
-		ID:               uint64(id + 1),
+		ID:               uint64(id + 1), // #nosec G115 IDs will always be smaller
 		Name:             light.Name,
 		Model:            light.ModelID,
 		FirmwareRevision: light.SoftwareVersion,
@@ -87,7 +87,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 		err := bridge.LightUpdateState(light, &hue.State{On: on})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("trigger state: %t", on)
@@ -96,7 +96,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":    uint64(id + 1),
+				"id":    id + 1,
 				"name":  light.Name,
 				"state": on,
 				"on":    "on",
@@ -133,7 +133,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 		err := bridge.LightUpdateState(light, &hue.State{On: true, Brightness: bri})
 
 		log.WithFields(log.Fields{
-			"id":   uint64(id + 1),
+			"id":   id + 1,
 			"name": light.Name,
 			"type": light.Type,
 		}).Debugf("change brightness: %d", bri)
@@ -142,7 +142,7 @@ func createDimmableLightAccessory(light *hue.Light, bridge hue.Bridger) *accesso
 		if err != nil {
 			// ...log it
 			log.WithFields(log.Fields{
-				"id":   uint64(id + 1),
+				"id":   id + 1,
 				"name": light.Name,
 				"bri":  bri,
 				"on":   "brightness",
